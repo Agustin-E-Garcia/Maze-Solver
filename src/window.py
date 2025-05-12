@@ -9,8 +9,8 @@ class Window:
         self.__active = False
         self.__root_widget.protocol("WM_DELETE_WINDOW", self.Close)
 
-    def Draw_line(self, line, fill_color):
-        line.Draw(self.__canvas, fill_color)
+    def Draw_item(self, item, fill_color):
+        item.Draw(self.__canvas, fill_color)
 
     def Redraw(self):
         self.__root_widget.update_idletasks()
