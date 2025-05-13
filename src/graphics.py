@@ -2,6 +2,10 @@ class Graphical_Item:
     def Draw(self, canvas, fill_color):
         pass
 
+    def Draw_over_time(self, canvas, fill_color):
+        self.Draw(canvas, fill_color)
+        yield
+
 class Point:
     def __init__(self, x = 0, y = 0):
         self.x = x
@@ -34,12 +38,23 @@ class Cell(Graphical_Item):
     def Draw(self, canvas, fill_color):
         if self.has_left_wall:
             self.left_wall.Draw(canvas, fill_color)
+        else:
+            self.left_wall.Draw(canvas, "grey")
+
         if self.has_right_wall:
             self.right_wall.Draw(canvas, fill_color)
+        else:
+            self.right_wall.Draw(canvas, "grey")
+        
         if self.has_top_wall:
             self.top_wall.Draw(canvas, fill_color)
+        else:
+            self.top_wall.Draw(canvas, "grey")
+        
         if self.has_bottom_wall:
             self.bottom_wall.Draw(canvas, fill_color)
+        else:
+            self.bottom_wall.Draw(canvas, "grey")
 
     def Draw_move(self, canvas, to_cell, undo=False):
         path = Line(self.middle_point, to_cell.middle_point)
