@@ -63,3 +63,18 @@ class Cell(Graphical_Item):
             path.Draw(canvas, "red")
         else:
             path.Draw(canvas, "green")
+
+class Path(Graphical_Item):
+    def __init__(self):
+        self.moves = []
+
+    def Register_move(self, from_cell, to_cell, undo=False):
+        self.moves.append((from_cell.middle_point, to_cell.middle_point, undo))
+
+    def Draw_over_time(self, canvas, fill_color):
+        for move in self.moves:
+            line = Line(move[0], move[1])
+            if move[2]:
+                yield line.Draw(canvas, "red")
+            else:
+                yield line.Draw(canvas, "green")

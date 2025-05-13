@@ -1,5 +1,5 @@
 from window import Window
-from graphics import Point, Cell
+from graphics import Point, Cell, Path
 from maze import Maze
 import time
 
@@ -7,11 +7,10 @@ def main():
     win = Window(800, 600)
     maze = Maze(Point(25, 25), 15, 10, 50, 50)
 
-    finished_drawin_maze = False
+    finished_drawin_maze = True
     added_entry_and_exit = False
     broken_walls = False
-    
-    maze_draw = win.Draw_item_over_time(maze, "red")
+    path_solved = False
     
     while win.Is_active():
         if not finished_drawin_maze:    
@@ -26,7 +25,11 @@ def main():
             broken_walls = True
             finished_drawin_maze = False
             maze_draw = win.Draw_item_over_time(maze, "white")
-
+        elif not path_solved:
+            path = Path()
+            maze.Solve(path)
+            finished_drawin_maze = False
+            maze_draw = win.Draw_item_over_time(path, "green")
         
         win.Redraw()
         time.sleep(0.05)

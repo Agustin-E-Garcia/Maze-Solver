@@ -1,4 +1,4 @@
-from graphics import Point, Cell, Graphical_Item
+from graphics import Graphical_Item, Point, Cell, Path
 import random
 
 class Maze(Graphical_Item):
@@ -73,26 +73,42 @@ class Maze(Graphical_Item):
             for y in range(self.__num_cols):
                 self.cell_collection[x][y].visited = False
 
-    def Solve(self):
-        return self.Solve_r(0, 0)
+    def Solve(self, path):
+        return self.Solve_r(0, 0, path)
 
-    def Solve_r(self, x, y):
+    def Solve_r(self, x, y, path):
         self.cell_collection[x][y].visited = True
         if x == self.__num_rows - 1 and y == self.__num_cols - 1:
             return True
         
         if x - 1 >= 0 and not self.cell_collection[x][y].has_left_wall:
             if not self.cell_collection[x - 1][y].visited:
-                pass
+                path.Register_move(self.cell_collection[x][y], self.cell_collection[x - 1][y])
+                if self.Solve_r(x - 1, y, path):
+                    return True
+                else:
+                    path.Register_move(self.cell_collection[x][y], self.cell_collection[x - 1][y], True)
 
         if x + 1 < self.__num_rows and not self.cell_collection[x][y].has_right_wall:
             if not self.cell_collection[x + 1][y].visited:
-                pass
+                path.Register_move(self.cell_collection[x][y], self.cell_collection[x + 1][y])
+                if self.Solve_r(x + 1, y, path):
+                    return True
+                else:
+                    path.Register_move(self.cell_collection[x][y], self.cell_collection[x + 1][y], True)
         
         if y - 1 >= 0 and not self.cell_collection[x][y].has_top_wall:
             if not self.cell_collection[x][y - 1].visited:
-                pass
+                path.Register_move(self.cell_collection[x][y], self.cell_collection[x][y - 1])
+                if self.Solve_r(x, y - 1, path):
+                    return True
+                else:
+                    path.Register_move(self.cell_collection[x][y], self.cell_collection[x][y - 1], True)
         
         if y + 1 < self.__num_cols and not self.cell_collection[x][y].has_bottom_wall:
             if not self.cell_collection[x][y + 1].visited:
-                pass
+                path.Register_move(self.cell_collection[x][y], self.cell_collection[x][y + 1])
+                if self.Solve_r(x, y + 1, path):
+                    return True
+                else:
+                    path.Register_move(self.cell_collection[x][y], self.cell_collection[x][y + 1], True)
