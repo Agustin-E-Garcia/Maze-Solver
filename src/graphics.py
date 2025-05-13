@@ -25,6 +25,7 @@ class Cell(Graphical_Item):
         self.has_right_wall = right_wall
         self.has_top_wall = top_wall
         self.has_bottom_wall = bottom_wall
+        self.visited = False
         
         middle_x = ((lower_right_corner.x - upper_left_corner.x) / 2) + upper_left_corner.x
         middle_y = ((lower_right_corner.y - upper_left_corner.y) / 2) + upper_left_corner.y
@@ -56,9 +57,9 @@ class Cell(Graphical_Item):
         else:
             self.bottom_wall.Draw(canvas, "grey")
 
-    def Draw_move(self, canvas, to_cell, undo=False):
+    def Draw_path(self, canvas, to_cell, undo=False):
         path = Line(self.middle_point, to_cell.middle_point)
         if undo:
             path.Draw(canvas, "red")
         else:
-            path.Draw(canvas, "black")
+            path.Draw(canvas, "green")
